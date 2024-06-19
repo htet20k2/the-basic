@@ -20,6 +20,31 @@ class ItemController extends Controller
         ]);
     }
 
+    public function show($id){
+        // $item= Item::findOrFail($id);
+        // if(is_null($item)){
+        //     return abort(404);
+        // }
+        // return $item;
+        return view('inventory.show',["item"=> Item::findOrFail($id)]) ;
+        // return view('inventory.show',compact("item")) ;
+    }
+
+    public function edit($id){
+        return view("inventory.edit",["item"=> Item::findOrFail($id)]);
+    }
+
+    public function update($id, Request $request){
+        $item = Item::findOrFail($id);
+        $item->name = $request->name;
+        $item->price = $request->price;
+        $item->stock = $request->stock;
+        $item->update();
+
+        return redirect()->route("item.index"); 
+        // return $request;
+
+    }
     public function store(Request $request){
 
         $item = new Item();
@@ -27,7 +52,7 @@ class ItemController extends Controller
         $item->price= $request->price;
         $item->stock= $request->stock;
         // dd($item);
-        $item->save;
+        $item->save();
 
 
         // $item= Item::create([
@@ -46,5 +71,12 @@ class ItemController extends Controller
         // ]);
         // return $item;
         return redirect()->route("item.index");
+    }
+
+    public function destroy($id)
+    {
+        $item = Item::findOrFail($id);
+        $item->delete();
+        return redirect()->back();    
     }
 }
