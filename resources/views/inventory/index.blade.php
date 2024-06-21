@@ -6,6 +6,18 @@
 
 @section('content')
     <h4>I'm Item List</h4>
+
+    @if (session('status'))
+        <div class=" alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
+    {{-- @if (session()->has('message'))
+        <div class=" alert alert-success">
+            {{ session()->get('message') }}
+        </div>
+    @endif --}}
+
     <table class="table">
         <thead>
             <tr>
@@ -45,4 +57,5 @@
             @endforelse
         </tbody>
     </table>
+    {{ $items->onEachSide(1)->links() }}
 @endsection
